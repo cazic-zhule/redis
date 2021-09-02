@@ -13,7 +13,7 @@ var ctx = context.Background()
 const UNSET = "UNSET"
 
 type RedisConfig struct {
-	client *redis.Client
+	Client *redis.Client
 }
 
 func (r *RedisConfig) Exists(key string) bool {
@@ -22,7 +22,7 @@ func (r *RedisConfig) Exists(key string) bool {
 }
 
 func (r *RedisConfig) Get(key string) string {
-	val, err := r.client.Get(ctx, key).Result()
+	val, err := r.Client.Get(ctx, key).Result()
 	if err == redis.Nil {
 		return UNSET
 	} else if err != nil {
@@ -33,7 +33,7 @@ func (r *RedisConfig) Get(key string) string {
 }
 
 func (r *RedisConfig) Set(key string, val string, ttl time.Duration) {
-	err := r.client.Set(ctx, key, val, ttl).Err()
+	err := r.Client.Set(ctx, key, val, ttl).Err()
 	if err != nil {
 		fmt.Println("Error setting key, ", key, ", val, ", val, " in redis ", err)
 	}
